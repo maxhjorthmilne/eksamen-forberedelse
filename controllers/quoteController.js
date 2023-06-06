@@ -2,10 +2,10 @@ const Quote = require("../models/quoteModel")
 const mongoose = require("mongoose")
 
 const postQuote = async (req, res) =>{
-    const { text, creator } = req.body;
+    const { text, creator, origin } = req.body;
 
     try{
-        const quote = await Quote.create({ text, creator });
+        const quote = await Quote.create({ text, creator, origin });
 
 
 
@@ -23,7 +23,7 @@ const filterUser = async (req, res)=>{
 
     try{
         const quote = await Quote.find({creator: username}).sort({createdAt: -1})
-        res.render("filtered", {quote, username})
+        res.render("filtered", {quote, username, origin})
     }catch(error){
         res.status(400).json({error: error.message})
     }
@@ -60,11 +60,11 @@ const deleteQuote = async(req, res)=>{
 }
 
 const updateQuote = async(req, res)=>{
-    const { text, id  } = req.body;
+    const { text, id, origin  } = req.body;
 
     console.log(id)
 
-    const quote = await Quote.findByIdAndUpdate({ _id: id },{text})
+    const quote = await Quote.findByIdAndUpdate({ _id: id },{text, origin})
 
     res.status(200).json({quote})
 }
