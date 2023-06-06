@@ -23,7 +23,7 @@ const filterUser = async (req, res)=>{
 
     try{
         const quote = await Quote.find({creator: username}).sort({createdAt: -1})
-        res.render("filtered", {quote, username, origin})
+        res.render("filtered", {quote, username})
     }catch(error){
         res.status(400).json({error: error.message})
     }
