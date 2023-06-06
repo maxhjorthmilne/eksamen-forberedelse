@@ -3,6 +3,7 @@
     <div class="logo">
         <h1>
             <% if(typeof(user) !== 'undefined' && user) {%>
+            Quotes - 
                 <a href="/"><%= user.email %></a>
             <% } else { %>
                 <a href="/" class="homeTag">Quotes!</a>
