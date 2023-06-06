@@ -1,6 +1,6 @@
 <%-include('./partials/header')%>
 <form id="chinForm">
-    <h1>Update the Chinpokomon!</h1>
+    <h1>Update the quote!</h1>
     <input type="text" name="text" id="text" placeholder="quote" value="<%= quote.text %>" required>
     <input type="submit" name="creator" data-id="<%= quote._id %>">
 </form>
@@ -26,6 +26,7 @@
 
         const data = await res.json()
         alert("quote updated!")
+        location.assign("/")
         form.reset()
 
 
