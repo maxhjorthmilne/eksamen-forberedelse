@@ -1,0 +1,86 @@
+<%- include("./partials/header") %>
+<form id="quoteForm" action="/quote" method="POST">
+    <h1>Create a quote!</h1>
+    <input type="text" name="text" id="text" placeholder="quote" required maxlength="100">
+    <input type="submit" name="creator" data-id="<%= user.email %>">
+</form>
+
+<% if(quote.length>0){ %>
+
+    <h2>Your quotes:</h2>
+
+    <% quote.forEach((quote)=>{ %>
+    <div class="quoteHome">
+        <h1>"<%= quote.text %>"</h1>
+        <p> by <%= quote.creator%></p>
+        <button class="delete" data-id="<%= quote._id %>">Delete</button>
+        <button><a href="/updateQuote/<%= quote._id %>">update</a></button>
+    </div>
+   <% }) %>
+
+<% }else{ %> 
+
+    <h2>you have no quotes:(</h2>
+
+    <% } %>
+
+<%- include("./partials/footer") %>
+
+<script>
+    const form = document.querySelector("form")
+    const creator = form.creator.dataset.id
+    console.log(creator)
+    form.addEventListener("submit", async e =>{
+        e.preventDefault()
+        const text = form.text.value;
+
+        if(form.value === 0){
+
+        }
+
+        //sender data for authentisering
+        try{
+            const res = await fetch("/quote", {
+                method: "POST",
+                body: JSON.stringify({ text, creator }),
+                headers: {"Content-Type": "application/json"}
+            })
+        //venter på data
+
+        const data = await res.json()
+        alert("Quote created!!")
+        location.reload()
+
+
+        }
+        catch(err){
+            console.log(err)
+        }
+       
+    })
+
+
+    document.addEventListener("click", async e=>{
+        
+        if(e.target.classList.contains("delete")){
+            const id = e.target.dataset.id;
+            console.log(id)
+            try{
+                const res = await fetch(`/deleteQuote/${id}`,{
+                    method: "DELETE",
+                    headers: { "Contect-Type": "application/json"},
+                });
+
+                const data = await res.json();
+                console.log(data)
+
+                location.reload()
+            }catch(err){
+                console.log(err)
+            }
+
+        }
+
+    })
+
+    </script>
